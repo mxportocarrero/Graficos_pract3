@@ -1,8 +1,8 @@
-#version 410
+#version 120
 
-in vec4 Position;
-in vec3 Normal;
-in vec2 TexCoord;
+varying vec4 Position;
+varying vec3 Normal;
+varying vec2 TexCoord;
 
 uniform sampler2D Tex1;
 
@@ -35,7 +35,7 @@ uniform FogInfo Fog;
 
 uniform int Fog_Type;
 
-layout( location = 0 ) out vec4 FragColor;
+//layout( location = 0 ) out vec4 FragColor;
 
 vec3 ads(int lightIndex, vec4 position, vec3 norm,vec4 tex){
 
@@ -53,7 +53,7 @@ vec3 ads(int lightIndex, vec4 position, vec3 norm,vec4 tex){
 
 void main(){
 
-	vec4 texColor = texture( Tex1, TexCoord );
+	vec4 texColor = texture2D( Tex1, TexCoord );
 
 	vec3 shadeColor = vec3(0.0);
     for(int i = 0; i < 2; i++){
@@ -65,15 +65,13 @@ void main(){
     	float dist = abs(Position.z);
 	    float fogFactor;
 
-	    switch(Fog_Type){
-	    	case 1:
+	    if(Fog_Type == 1)
 	    		fogFactor = (Fog.maxDist - dist) / (Fog.maxDist - Fog.minDist);
-	    		break;
-	    	case 2:
+	    if(Fog_Type == 2)
 	    		fogFactor = exp(-Fog.density * dist);
-	    	case 3:
+	    if(Fog_Type == 3)
 	    		fogFactor = exp(- pow(Fog.density * dist,2.0));
-	    }
+
 
 	    fogFactor = clamp(fogFactor,0.0,1.0);
 
@@ -82,6 +80,6 @@ void main(){
     else
     	Color = shadeColor;
 
-	FragColor = vec4(Color, 1.0);
+	gl_FragColor = vec4(Color, 1.0);
 
 }

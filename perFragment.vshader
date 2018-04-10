@@ -1,10 +1,10 @@
-#version 400
-layout (location = 0) in vec3 VertexPosition;
-layout (location = 1) in vec3 VertexNormal;
+#version 120
+attribute vec3 VertexPosition;
+attribute vec3 VertexNormal;
 
 
-out vec4 Position;
-out vec3 Normal;
+varying vec4 Position;
+varying vec3 Normal;
 
 
 uniform mat4 ModelViewMatrix;

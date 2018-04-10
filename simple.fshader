@@ -1,8 +1,8 @@
-#version 410
+#version 120
 
-in vec3 LightIntensity;
+varying vec3 LightIntensity;
 
-layout(location = 0) out vec4 FragColor;
+//layout(location = 0) out vec4 FragColor;
 
 struct MaterialInfo{
     vec3 Ka; // Reflectividad Ambiental
@@ -16,7 +16,7 @@ uniform MaterialInfo Material;
 uniform int isLightEnabled;
 
 void main(){
-        FragColor = vec4(LightIntensity,1.0);
+        gl_FragColor = vec4(LightIntensity,1.0);
 
     	//FragColor = vec4(Material.Kd,1.0);
 }

@@ -1,9 +1,9 @@
-#version 400
+#version 120
 
-layout (location = 0) in vec3 VertexPosition;
-layout (location = 1) in vec3 VertexNormal;
+attribute vec3 VertexPosition;
+attribute vec3 VertexNormal;
 
-out vec3 LightIntensity;
+varying vec3 LightIntensity;
 
 struct LightInfo{
     vec4 Position;
@@ -91,15 +91,13 @@ void main(){
             float dist = abs(eyeCoords.z);
             float fogFactor;
 
-            switch(Fog_Type){
-                case 1:
-                    fogFactor = (Fog.maxDist - dist) / (Fog.maxDist - Fog.minDist);
-                    break;
-                case 2:
+            if(Fog_Type == 1)
+                fogFactor = (Fog.maxDist - dist) / (Fog.maxDist - Fog.minDist);
+            if(Fog_Type == 2)
                     fogFactor = exp(-Fog.density * dist);
-                case 3:
+            if(Fog_Type == 3)
                     fogFactor = exp(- pow(Fog.density * dist,2.0));
-            }
+
 
             fogFactor = clamp(fogFactor,0.0,1.0);
 
